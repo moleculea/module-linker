@@ -24,7 +24,7 @@ def getArgs():
     parser = argparse.ArgumentParser(
                                      formatter_class=argparse.RawDescriptionHelpFormatter,
                                      description="Link multiple modules into a single module", 
-                                     usage="[python] [./]%(prog)s [-prv] input_file [output_file]",
+                                     usage="[python] [./]%(prog)s [-nprv] input_file [output_file]",
                                      epilog="usage examples: \n\
   %(prog)s input.txt output.txt       (save output without printing)\n\
   %(prog)s -p input.txt output.txt    (print formatted output)\n\
@@ -37,6 +37,7 @@ def getArgs():
     parser.add_argument('-p','--print', action="store_true", dest="to_print", help="print output file content to standard output")
     parser.add_argument('-r','--human', action="store_true", dest="to_human", help="print human readable output to standard output")
     parser.add_argument('-v','--verbose', action="store_true", dest="to_verbose", help="print verbose information")
+    parser.add_argument('-n','--no-output', action="store_true", dest="to_no_output", help="do not print output")
     
     # if no argument is given, print help message
     if len(sys.argv)==1:
@@ -44,10 +45,10 @@ def getArgs():
         sys.exit(1)
     args = parser.parse_args()
     
-    input_file, output_file, to_print, to_human, to_verbose = \
-    args.input_file, args.output_file, args.to_print, args.to_human, args.to_verbose
+    input_file, output_file, to_print, to_human, to_verbose, to_no_output = \
+    args.input_file, args.output_file, args.to_print, args.to_human, args.to_verbose, args.to_no_output
 
-    return input_file, output_file, to_print, to_human, to_verbose
+    return input_file, output_file, to_print, to_human, to_verbose, to_no_output
 
 def checkPaths(input_file, output_file, verbose=False):
     """Check validity of paths of input file and output file """
@@ -240,15 +241,16 @@ def _delRange(num, raw_list):
     return
 
 class Config(object):
-    def __init__(self, input_file, output_file, to_print, to_human, to_verbose):
+    def __init__(self, input_file, output_file, to_print, to_human, to_verbose, to_no_output):
         self.input_file = input_file
         self.output_file = output_file
         self.to_print = to_print
         self.human = to_human
         self.verbose = to_verbose
+        self.no_output = to_no_output
         
     def __str__(self):
-        return "input_file: %s\noutput_file: %s\nto_print: %s\nhuman: %s\nverbose: %s\n" % (self.input_file, self.output_file, self.output_file, self.human, self.human)
+        return "input_file: %s\noutput_file: %s\nto_print: %s\nhuman: %s\nverbose: %s\nno_output: %s\n" % (self.input_file, self.output_file, self.output_file, self.human, self.verbose, self.no_output)
     
 def preprocess():
     """
@@ -259,9 +261,9 @@ def preprocess():
         * to_human
         * to_verbose 
     """
-    input_file, output_file, to_print, to_human, to_verbose = getArgs()
+    input_file, output_file, to_print, to_human, to_verbose, to_no_output = getArgs()
     input_file, output_file = checkPaths(input_file, output_file, to_verbose)
-    return Config(input_file, output_file, to_print, to_human, to_verbose)
+    return Config(input_file, output_file, to_print, to_human, to_verbose, to_no_output)
 
 def postprocess(format_output, warnings, output_file, verbose=False):
     """
@@ -301,19 +303,20 @@ def main():
     warnings = modules.outputWarnings()
     number = modules.number  # number of modules processed (linked)
     
-    if conf.to_print or not conf.output_file: # if to_print is enabled or output_file is not given
-        if conf.human:
-            if conf.verbose:
-                utilities.output.debug("Print human readable output...")
-            print human_output
-            if warnings:
-                print warnings
-        else:
-            if conf.verbose:
-                utilities.output.debug("Printing output...")
-            print format_output
-            if warnings:
-                print warnings
+    if not conf.no_output:   
+        if conf.to_print or not conf.output_file: # if to_print is enabled or output_file is not given
+            if conf.human:
+                if conf.verbose:
+                    utilities.output.debug("Print human readable output...")
+                print human_output
+                if warnings:
+                    print warnings
+            else:
+                if conf.verbose:
+                    utilities.output.debug("Printing output...")
+                print format_output
+                if warnings:
+                    print warnings
 
     if conf.output_file:
         postprocess(format_output, warnings, conf.output_file, conf.verbose)

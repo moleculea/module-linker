@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 # -*- coding: utf-8  -*-
 import argparse
 import sys
@@ -6,8 +7,6 @@ import re
 import collections
 from scripts import utilities
 from scripts.linker import *
-
-#filename = sys.argv[1]
 
 def checkVersion():
     version = sys.version_info
@@ -37,7 +36,7 @@ def getArgs():
     
     input_file, output_file, to_print, to_human, to_verbose = \
     args.input_file, args.output_file, args.to_print, args.to_human, args.to_verbose
-    #print input_file, output_file, to_print, to_human, to_verbose
+
     return input_file, output_file, to_print, to_human, to_verbose
 
 def checkPaths(input_file, output_file, verbose=False):
@@ -65,7 +64,7 @@ def checkPaths(input_file, output_file, verbose=False):
         dir_name = os.path.dirname(out_path)
         if os.path.exists(dir_name):
             if os.path.isfile(out_path):
-                utilities.output.warning("Output file \"%s\" already exists." % dir_name)
+                utilities.output.warning("Output file \"%s\" already exists." % out_path)
                 s = raw_input("Overwrite (1), keep both (2) or cancel (3)? ")
                 flag, out_path = _promptOutput(s, out_path)
                 
@@ -77,8 +76,7 @@ def checkPaths(input_file, output_file, verbose=False):
         else:
             utilities.output.error("Base directory for output file \"%s\" dose not exist." % out_path)
             sys.exit(1)
-            
-    #print abs_path, out_path     
+                
     return abs_path, out_path
             
 def _promptOutput(s, out_path):
@@ -87,7 +85,6 @@ def _promptOutput(s, out_path):
         pass
     elif s == '2':
         fn, ext = os.path.splitext(out_path)
-        #out_path = fn + "(1)" + ext
         out_path = _keepBoth(out_path)
     elif s == '3':
         sys.exit(1)
@@ -115,7 +112,6 @@ def _keepBoth(out_path):
                 max_dup_num = num
                 
     out_path = fn + "(%d)" % max_dup_num + ext 
-    #print out_path  
     return out_path
 
 def readInput(input_file, verbose=False):
@@ -142,7 +138,6 @@ def splitInput(text, verbose=False):
     if verbose:
         utilities.output.debug("Reading input file...")
     s = text.split()
-    #print s
     return s
 
 def parseList(raw_list, verbose=False):
@@ -264,14 +259,13 @@ def postprocess(format_output, warnings, output_file, verbose=False):
         * Print output
         * Dump output into specific output file
     """
-    #print output_file
     f = None
     try:
         if verbose:
             utilities.output.debug("Opening output file \"%s\" to write." %output_file)
 
         f = open(output_file, "w")
-        f.write(format_output + warnings)
+        f.write(format_output + '\n\n' + warnings)
         
     except:
         utilities.output.error("Cannot write output to file \"%s\"." %output_file)
@@ -290,8 +284,7 @@ def main():
     mods = parseList(r_list, conf.verbose)
     modules = Modules(mods, conf.verbose)
     modules.processModules()
-    #print conf.input_file
-    #print conf.output_file
+
     # assign to local variables
     format_output = modules.output()
     human_output = modules
@@ -319,7 +312,6 @@ def main():
         utilities.output.debug("Linking process is complete. %d modules linked." % number)
        
 if __name__ == '__main__':
-    #print preprocess()
     main()
     
     

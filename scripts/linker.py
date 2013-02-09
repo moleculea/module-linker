@@ -343,7 +343,7 @@ class Modules(object):
         Return formatted Symbol Table with "=" for each variable
         """
         pst = []
-        #print self.symbol_table
+
         for t in self.symbol_table.items():
             pst.append(t[0] + "=" + t[1])
         return "\n".join(pst)
@@ -361,7 +361,7 @@ class Modules(object):
             use_vars = mod.getUseVars()
             code_map = mod.getCodeMap()
             use_vals = collections.OrderedDict()
-            #print def_vars
+
             for var in use_vars:
                 use_vals.update([(var, self.symbol_table[var])])
             lmod = LinkedModule(mod.number, mod.base_address, def_vars, use_vars, code_map, use_vals)
@@ -407,11 +407,11 @@ class Modules(object):
         vars = [t[0] for t in self.symbol_table.items()]  # retrieve variable in symbol table
         var_max_len = len(max(vars, key=len))  # length of longest string
         tj = []  # temporary list to be joined
-        #print add_index
+
         for t in add_index:
             fmt = "{:<%s}" % var_max_len  # left-align format width
             tj.append(fmt.format(str(t[0]) + ':') + ' ' + t[1])
-        #print var_max_len
+
         return self.formatSymbolTable() + "\n\n" + "\n".join(tj)
     
     def outputWarnings(self):
@@ -678,23 +678,6 @@ class LinkerWarnings(object):
             output_str += use_vars_str
         return output_str
             
-        
-def main():
-    """
-    Main control of objects and actions
-    """
-    t = readInput(filename)
-    r_list = splitInput(t)
-    mods = parseList(r_list)
-    modules = Modules(mods)
-    modules.processModules()
-    #print modules
-    print modules.output()
-    print modules.outputWarnings()
-    
-    #c = [(1, 2), (3, 4)]
-    #print utilities.tuplelist2list(c)
-    #print utilities.list2dict(['X21', '0', 'X22', '2', 'X23', '5', 'X24', '6'])
     
 if __name__ == '__main__':
-    main()
+    utilities.output.warning("Please run main.py script from project's directory.")

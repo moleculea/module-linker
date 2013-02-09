@@ -67,3 +67,5 @@ class output(object):
     def warning(msg):
         output.__out(output.WARNING, msg)
         
+if __name__ == '__main__':
+    utilities.output.warning("Please run main.py script from project's directory.")        

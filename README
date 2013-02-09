@@ -1,17 +1,18 @@
-usage: [python] [./]main.py [-prv] input_file [output_file]
+usage: [python] [./]main.py [-nprv] input_file [output_file]
 
 Link multiple modules into a single module
 
 positional arguments:
-  input_file     /path/to/input-file.txt
-  output_file    /path/to/output-file.txt; if not given, print to standard
-                 output
+  input_file       /path/to/input-file.txt
+  output_file      /path/to/output-file.txt; if not given, print to standard
+                   output
 
 optional arguments:
-  -h, --help     show this help message and exit
-  -p, --print    print output file content to standard output
-  -r, --human    print human readable output to standard output
-  -v, --verbose  print verbose information
+  -h, --help       show this help message and exit
+  -p, --print      print output file content to standard output
+  -r, --human      print human readable output to standard output
+  -v, --verbose    print verbose information
+  -n, --no-output  do not print output
 
 usage examples: 
   main.py input.txt output.txt       (save output without printing)
@@ -19,3 +20,4 @@ usage examples:
   main.py -pr input.txt output.txt   (print human readable output)
   main.py -v input.txt output.txt    (print verbose debug information)
   main.py input.txt                  (simply print output without saving)
+  main.py -nv input.txt              (print no output but only debug info)

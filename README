@@ -12,3 +12,10 @@ optional arguments:
   -p, --print    print output file content to standard output
   -r, --human    print human readable output to standard output
   -v, --verbose  print verbose information
+
+usage examples: 
+  main.py input.txt output.txt       (save output without printing)
+  main.py -p input.txt output.txt    (print formatted output)
+  main.py -pr input.txt output.txt   (print human readable output)
+  main.py -v input.txt output.txt    (print verbose debug information)
+  main.py input.txt                  (simply print output without saving)

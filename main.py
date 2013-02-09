@@ -24,7 +24,7 @@ def getArgs():
     parser = argparse.ArgumentParser(
                                      formatter_class=argparse.RawDescriptionHelpFormatter,
                                      description="Link multiple modules into a single module", 
-                                     usage='%(prog)s [-prv] input_file [output_file]',
+                                     usage="[python] [./]%(prog)s [-prv] input_file [output_file]",
                                      epilog="usage examples: \n\
   %(prog)s input.txt output.txt       (save output without printing)\n\
   %(prog)s -p input.txt output.txt    (print formatted output)\n\

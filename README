@@ -1,4 +1,4 @@
-usage: main.py [-prv] input_file [output_file]
+usage: [python] [./]main.py [-prv] input_file [output_file]
 
 Link multiple modules into a single module
 

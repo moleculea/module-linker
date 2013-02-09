@@ -21,7 +21,17 @@ def checkVersion():
 def getArgs():
     """Parse command-line arguments with optional functionalities"""
     
-    parser = argparse.ArgumentParser(description="Link multiple modules into a single module", usage='%(prog)s [-prv] input_file [output_file]')
+    parser = argparse.ArgumentParser(
+                                     formatter_class=argparse.RawDescriptionHelpFormatter,
+                                     description="Link multiple modules into a single module", 
+                                     usage='%(prog)s [-prv] input_file [output_file]',
+                                     epilog="usage examples: \n\
+  %(prog)s input.txt output.txt       (save output without printing)\n\
+  %(prog)s -p input.txt output.txt    (print formatted output)\n\
+  %(prog)s -pr input.txt output.txt   (print human readable output)\n\
+  %(prog)s -v input.txt output.txt    (print verbose debug information)\n\
+  %(prog)s input.txt                  (simply print output without saving)\n"
+                                     )
     parser.add_argument('input_file', help="/path/to/input-file.txt")
     parser.add_argument('output_file', nargs='?', help="/path/to/output-file.txt; if not given, print to standard output")
     parser.add_argument('-p','--print', action="store_true", dest="to_print", help="print output file content to standard output")

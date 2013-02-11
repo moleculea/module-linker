@@ -412,7 +412,7 @@ class Modules(object):
             fmt = "{:<%s}" % var_max_len  # left-align format width
             tj.append(fmt.format(str(t[0]) + ':') + ' ' + t[1])
 
-        return self.formatSymbolTable() + "\n\n" + "\n".join(tj)
+        return self.formatSymbolTable() + "\n\n" + "\n".join(tj) + "\n"
     
     def outputWarnings(self):
         return self.__linker_warnings.output()
@@ -451,6 +451,7 @@ class LinkerErrors(object):
         self._extAddExceed()
         self._absAddExceed()
         self._relAddExceed()
+        self._netModExceed()
         
     def __locateError(self, module, kind_number):
 
@@ -581,7 +582,18 @@ class LinkerErrors(object):
                         sys.exit(1)
         return
     
-    
+    def _netModExceed(self):
+        """
+        If the sum of all modules size exceeds the machine size,
+        print an error
+        """
+        sum_size = 0
+        for mod in self.__modules:
+            sum_size += mod.size
+        if sum_size > MACHINE_MEMOERY_SIZE:
+            utilities.output.error("The summed size of all modules, which is %d, exceeds the size of machine" % sum_size)
+            sys.exit(1)
+            
     @property
     def def_var_list(self):
         return self.__def_vars_list

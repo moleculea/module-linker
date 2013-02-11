@@ -123,13 +123,13 @@ def _keepBoth(out_path):
     max_dup_num = 1
 
     for df in dir_file_list:
-        m = re.search("%s\((\d+)\)%s" % (dir_fn, ext), df)
+        m = re.search("%s\[(\d+)\]%s" % (dir_fn, ext), df)
         if m:
             num = int(m.group(1)) + 1
             if num > max_dup_num:
                 max_dup_num = num
                 
-    out_path = fn + "(%d)" % max_dup_num + ext 
+    out_path = fn + "[%d]" % max_dup_num + ext 
     return out_path
 
 def readInput(input_file, verbose=False):

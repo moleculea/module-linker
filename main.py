@@ -5,6 +5,7 @@ import sys
 import os
 import re
 import collections
+import platform
 from scripts import utilities
 from scripts.linker import *
 
@@ -18,6 +19,11 @@ def checkVersion():
             utilities.output.error("Python 3.%d installed. This app requires Python 2.7."%(version[1]))
             sys.exit(1)
 
+def detectSystem():
+    if platform.system() == 'Windows':
+        print "WARNING: ANSI color may not work on Windows Command Prompt.\n\
+You may see meta-escaping characters instead of color output."
+        
 def getArgs():
     """Parse command-line arguments with optional functionalities"""
     
@@ -291,6 +297,7 @@ def main():
     """
     Main control of objects and actions
     """
+    detectSystem()
     conf = preprocess()
     t = readInput(conf.input_file, conf.verbose)
     r_list = splitInput(t, conf.verbose)

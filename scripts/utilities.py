@@ -52,7 +52,7 @@ class output(object):
     @staticmethod
     def __out(type, msg):
         if type == output.ERROR:
-            sys.stdout.write("\033[%dm [%s] %s\033[m\n" % (30 + output.RED, "Error", msg))
+            sys.stderr.write("\033[%dm [%s] %s\033[m\n" % (30 + output.RED, "Error", msg))
         if type == output.DEBUG:
             sys.stdout.write("\033[%dm [%s] %s\033[m\n" % (30 + output.GREEN, "Debug", msg))
         if type == output.WARNING:

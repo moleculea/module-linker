@@ -1,4 +1,6 @@
-usage: [python] [./]main.py [-nprv] input_file [output_file]
+requirements: Python 2.7
+
+usage: [python][2.7] [./]main.py [-nprv] input_file [output_file]
 
 Link multiple modules into a single module
 

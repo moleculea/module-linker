@@ -1,23 +1,16 @@
 #! /usr/bin/env python
 # -*- coding: utf-8  -*-
-import argparse
 import sys
 import os
 import re
 import collections
 import platform
 from scripts import utilities
-from scripts.linker import *
-
-def checkVersion():
-    version = sys.version_info
-    if version[0] == 2:
-        if version[1] < 7:
-            utilities.output.error("Python 2.%d installed. This app requires Python 2.7."%(version[1]))
-            sys.exit(1)
-    if version[0] == 3:
-            utilities.output.error("Python 3.%d installed. This app requires Python 2.7."%(version[1]))
-            sys.exit(1)
+try:
+    import argparse
+    from scripts.linker import *
+except:
+    utilities.check_version()
 
 def detectSystem():
     if platform.system() == 'Windows':

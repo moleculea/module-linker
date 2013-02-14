@@ -67,5 +67,15 @@ class output(object):
     def warning(msg):
         output.__out(output.WARNING, msg)
         
+def check_version(): 
+    version = sys.version_info
+    if version[0] == 2:
+        if version[1] < 7:
+            output.error("Python 2.%d installed. This app requires Python 2.7."%(version[1]))
+            sys.exit(1)
+    if version[0] == 3:
+            output.error("Python 3.%d installed. This app requires Python 2.7."%(version[1]))
+            sys.exit(1)
+            
 if __name__ == '__main__':
     utilities.output.warning("Please run main.py script from project's directory.")        
